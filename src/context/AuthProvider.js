@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-// import { getUserById } from "../api/API";
+import { getUserById } from "../api/API";
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
@@ -13,12 +13,13 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUser = async () => {
     try {
-      if (userID === null) {
+      if (userID === null || userID === undefined) {
         setUser(null);
       } else {
-        const response = ''// 20= await getUserById(userID);
-        if (response.status === 200) {
-          setUser(response.data);
+        const response = await getUserById(userID);
+        if (response?.status === 200) {
+          console.log(response.data);
+          setUser(response?.data);
         }
       }
     } catch (error) {
@@ -27,7 +28,12 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    fetchUser();
+    if (localStorage.getItem("userID") === "undefined")
+      localStorage.removeItem("userID");
+    else if (sessionStorage.getItem("userID") === "undefined")
+      sessionStorage.removeItem("userID");
+    else
+      fetchUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -3,11 +3,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Login.module.scss";
 import Input from "../../components/Input/Input";
-import Button from "../../components/Buton/Buton";
+import Button from "../../components/Buton/Button";
 
 import { ReactComponent as View } from "../../assets/icons/view.svg";
 import { ReactComponent as ViewOff } from "../../assets/icons/view-off.svg";
-import LoginIMG from "../../assets/imagini/login.svg";
 
 import useAuth from "../../hooks/useAuth";
 import useStateProvider from "../../hooks/useStateProvider";
@@ -25,12 +24,12 @@ const Login = () => {
   const [passwordShown, setPasswordShown] = useState(true);
 
   // form values
-  const [email, setEmail] = useState("");
-  const [pwd, setPwd] = useState("");
+  const [email, setEmail] = useState("vasile.popescu@example.com"); // ""
+  const [pwd, setPwd] = useState("parola123"); // ""
 
   // error states
-  const [emailError, setEmailError] = useState(null);
-  const [pwdError, setPwdError] = useState(null);
+  const [emailError, setEmailError] = useState(""); // null
+  const [pwdError, setPwdError] = useState(""); // null
 
   const handleEmailError = (e) => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
@@ -52,12 +51,13 @@ const Login = () => {
     try {
       if (emailError === "" && pwdError === "") {
         if (pwd.length > 6) {
+          console.log(email, pwd);
           const response = await login(email, pwd);
           if (response) {
             setUser(response.data);
             navigate("/");
-            if (rememberMe) localStorage.setItem("userID", response?.data.id);
-            else sessionStorage.setItem("userID", response?.data.id);
+            if (rememberMe) localStorage.setItem("userID", response?.data.idUtilizator);
+            else sessionStorage.setItem("userID", response?.data.idUtilizator);
             setAlert({
               type: "success",
               message: "Login successfully",
@@ -165,11 +165,19 @@ const Login = () => {
           <div className={styles.contentContainerButtons}>
             <Button variant="primary" label="Conectare" onClick={handleLogin} />
           </div>
-        </div>
-      </div>
-      <div className={styles.containerAuthImage}>
-        <div className={styles.contentContainerForm}>
-          <img src={LoginIMG} alt='Login'/>
+          <div className={`${styles.contentContainerAuthEndForm} ${styles.authRegister}`}>
+            <div className={styles.textAuthEndForm}>
+              Nu aveti cont?{" "}
+              <span
+                className={styles.textAuthEndForm}
+                onClick={() => {
+                  navigate("/register");
+                }}
+              >
+                Inregistrare
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -41,7 +41,7 @@
   }
 
   label {
-    color: $color-gray-600;
+    color: $color-white;
     font-size: $font-body-small;
     font-weight: $font-medium;
     line-height: 22px;
@@ -65,7 +65,7 @@
 
   .icon {
     position: absolute;
-    bottom: 30%;
+    // bottom: 30%;
     transform: translate(-100%, 50%);
     border-left: 1px solid $color-gray-200;
     margin-left: -12px;

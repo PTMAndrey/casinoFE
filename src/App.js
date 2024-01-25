@@ -14,12 +14,14 @@ import useStateProvider from "./hooks/useStateProvider";
 import useWindowDimensions from "./hooks/useWindowDimensions"
 import useAuth from "./hooks/useAuth";
 import Login from "./pages/Login/Login";
-import Profile from "./pages/Profile/Profile";
+import Register from "./pages/Register/Register";
+import ProfilulMeu from "./pages/Profile/ProfilulMeu";
+import Roulette from "./pages/Roulette/Roulette";
 
 function App() {
   const { width } = useWindowDimensions();
   const { alert } = useStateProvider();
-  const {user} = useAuth();
+  const { user } = useAuth();
   return (
     <Router>
       <Routes>
@@ -35,7 +37,15 @@ function App() {
         >
           {/* protected routes */}
           <Route path="/" element={<PaginaPrincipala />} />
-          <Route path="/profil" element={<Profile />} />
+          <Route path="/ruleta" element={<Roulette />} />
+          
+          <Route path="/user">
+            <Route path="profil" element={<ProfilulMeu />} />
+            <Route path="referal" element={<ProfilulMeu />} />
+            <Route path="depunere" element={<ProfilulMeu />} />
+            <Route path="retragere" element={<ProfilulMeu />} />
+            {/* <Route path="abonament" element={<ProfilulMeu />} /> */}
+          </Route>
 
         </Route>
 
@@ -43,14 +53,13 @@ function App() {
           element={
             <>
               <Header expand={width >= 750 ? "sm" : false} ></Header>
-              <Layout>
-                <Outlet />
-              </Layout>
+              <Outlet />
             </>
           }
         >
           {/* public routes */}
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Route>
 
         {/* onboarding routes */}

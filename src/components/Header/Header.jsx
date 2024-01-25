@@ -44,30 +44,29 @@ const Header = (props) => {
             <Offcanvas.Body className={styles.bodyNav}>
               <Nav className="justify-content-end flex-grow-1 pe-3 p-2 d-flex align-items-center">
                 <Nav.Link href="/" className='text-white'>Acasa</Nav.Link>
-                <Nav.Link href="/roulette" className='text-white'>Roulette</Nav.Link>
-                {user?.rol === 'Admin' && <Nav.Link href="/utilizatori" className='text-white'>Utilizatori </Nav.Link>}
-
+                <Nav.Link href="/ruleta" className='text-white'>Ruleta</Nav.Link>
 
                 {!user ? (
-                  <Nav.Link
-                    href="/login"
-                    className='text-white'
-                  >
-                    Conectare
-                  </Nav.Link>
+                  <>
+                    <Nav.Link
+                      href="/login"
+                      className='text-white'
+                    >
+                      Conectare
+                    </Nav.Link>
+                    <Nav.Link
+                      href="/register"
+                      className='text-white'
+                    >
+                      Inregistrare
+                    </Nav.Link>
+                  </>
                 ) : (
                   <NavDropdown
                     title={
                       <div className={styles.profile}>
-                        <div className={styles.photoDiv}>
-                          <img
-                            src={user?.imagine}
-                            alt=""
-                            className={`${styles.userPhoto}`}
-                          />
-                        </div>
                         <div>
-                          {user?.nume}
+                          Contul meu
                           <BsFillCaretDownFill />
                         </div>
                       </div>
@@ -76,11 +75,37 @@ const Header = (props) => {
                     id={`offcanvasNavbarDropdown-expand-${props.expand}`}
                   >
                     <NavDropdown.Item
-                      // className={`${styles.hello}`}
-                      href="/profil"
+                      className={styles.hello}
+                    >
+                      Salut {user?.alias}
+                    </NavDropdown.Item>
+
+                    <NavDropdown.Item
+                      href="/user/profil"
                     >
                       Profil
                     </NavDropdown.Item>
+
+                    <NavDropdown.Item
+                      href="/user/referal"
+                    >
+                      Referal
+                    </NavDropdown.Item>
+
+                    
+                    <NavDropdown.Item
+                      href="/user/depunere"
+                    >
+                      Depunere
+                    </NavDropdown.Item>
+
+                    
+                    <NavDropdown.Item
+                      href="/user/retragere"
+                    >
+                      Retragere
+                    </NavDropdown.Item>
+                    
 
                     <NavDropdown.Divider />
 
@@ -94,6 +119,7 @@ const Header = (props) => {
                   </NavDropdown>
                 )}
 
+                {user && <Nav.Item className='text-white'>Balanta: {user?.balanta} lei</Nav.Item>}
               </Nav>
             </Offcanvas.Body>
           </Navbar.Offcanvas>

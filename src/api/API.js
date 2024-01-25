@@ -16,8 +16,9 @@ axios.defaults.headers = {
 export const login = async (email, password) => {
   try {
     const response = await axios.get(
-      "/persoana/login?email=" + email + "&parola=" + password
+      "/utilizator/login?email=" + email + "&parola=" + password
     );
+    console.log(response);
     return response;
   } catch (error) {
     console.log(error);
@@ -25,96 +26,41 @@ export const login = async (email, password) => {
 };
 
 
-export const getAllUsers = async (id) => {
+export const register = async (data) => {
   try {
-    const response = await axios.get("/persoana/get/all");
+    const response = await axios.post('/utilizator/add',data);
     return response;
   } catch (error) {
     console.log(error);
   }
 };
-
-export const addUser = async (data) => {
-  try {
-    const response = await axios.post(
-      
-     '/persoana/inregistrare?nume='+data.nume+'&prenume='+data.prenume+'&email='+data.email+'&parola='+data.parola+'&departament='+data.departmanet+'&rol='+data.rol+'&nume_proiect='+data.nume_proiect+'&manager='+data.manager+'&tara='+data.tara+'&oras='+data.oras+'&nationalitate='+data.nationalitate+'&dataNasterii='+data.dataNasterii
-
-    );
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const updateUser = async (data) => {
-  try {
-    const response = await axios.put(
-      
-     '/persoana/update/'+data.id+'?nume='+data.nume+'&prenume='+data.prenume+'&email='+data.email+'&parola='+data.parola+'&departament='+data.departament+'&rol='+data.rol+'&nume_proiect='+data.nume_proiect+'&manager='+data.manager+'&tara='+data.tara+'&oras='+data.oras+'&nationalitate='+data.nationalitate+'&dataNasterii='+data.dataNasterii
-
-    );
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const deleteUser = async (id) => {
-  try {
-    const response = await axios.delete("/persoana/delete/" + id);
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 
 // get user by id
 export const getUserById = async (id) => {
   try {
-    const response = await axios.get("/persoana/get/" + id);
+    const response = await axios.get("/utilizator/getByID?id=" + id);
     return response;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const getBirouriPeEtaj = async (etaj) => {
+
+// get all games
+export const getAllJocuri = async () => {
   try {
-    const response = await axios.get(
-      "/birou/get/etaj/" + etaj);
+    const response = await axios.get("/jocuri/getAll");
     return response;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const searchEmployee = async(string) =>{
-  try {
-    const response = await axios.get("/persoana/get/persoane/filtrare?searchString=" + string);
-    return response;
-  } catch (error) {
-    console.log(error)
-  }
-}
 
-export const getBirouriLiberePeEtaj = async (data) => {
+// place bet
+export const placeBet = async (data) => {
   try {
-    const response = await axios.get(
-      "/birou/get/freeDesks/" + data.etaj + '/' + data.ziuaCautare + '/' + data.oraInceput + '/' + data.oraIncheiere
-    );
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getIsBirouFree = async (id, data) => {
-  try {
-    const response = await axios.get(
-      "/birou/get/isBirouFree/" + id + '/' + data.ziuaCautare + '/' + data.oraInceput + '/' + data.oraIncheiere
-    );
+    const response = await axios.post("/pariuri/add",data);
     return response;
   } catch (error) {
     console.log(error);
@@ -123,11 +69,10 @@ export const getIsBirouFree = async (id, data) => {
 
 
 
-export const addBirouri = async (etajID, camera, x, y) => {
+// adauga cod referal de la parinte
+export const addCodReferal = async (data) => {
   try {
-    const response = await axios.post(
-      "/birou/add?camera=" + camera + '&etaj=' + etajID + '&coordX=' + x + '&coordY=' + y
-    );
+    const response = await axios.put("/utilizator/adaugaReferal?id="+data.id+"&codulMeuReferal="+data.codReferal);
     return response;
   } catch (error) {
     console.log(error);
@@ -135,9 +80,10 @@ export const addBirouri = async (etajID, camera, x, y) => {
 };
 
 
-export const updateBirouri = async (birouri) => {
+// schimba codul meu referal
+export const actualizeazaCodulMeuReferal = async (data) => {
   try {
-    const response = await axios.put("/birou/put/update/birouri", birouri);
+    const response = await axios.put("/utilizator/actualizareReferalulMeu?id="+data.id+"&codulMeuReferal="+data.codReferal);
     return response;
   } catch (error) {
     console.log(error);
@@ -145,35 +91,10 @@ export const updateBirouri = async (birouri) => {
 };
 
 
-export const rezervaBirou = async (idBirou, userID, data) => {
+// deposit
+export const depunereBani = async (data) => {
   try {
-    const response = await axios.post(
-      "/rezervare/add/" + idBirou + '/' + userID, { 'data': data.ziuaCautare, 'oraFinal': data.oraIncheiere, 'oraInceput': data.oraInceput }
-    );
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-
-export const getRezervariByUserID = async (userID) => {
-  try {
-    const response = await axios.get(
-      "/persoana/get/rezervari/" + userID
-    );
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-
-export const deleteRezervareByID = async (rezID) => {
-  try {
-    const response = await axios.delete(
-      "/rezervare/delete/" + rezID
-    );
+    const response = await axios.post("/depuneri/add",data);
     return response;
   } catch (error) {
     console.log(error);
@@ -182,14 +103,10 @@ export const deleteRezervareByID = async (rezID) => {
 
 
 
-
-export const updateUserPoza = async (userid, data) => {
+// retragere
+export const retragereBani = async (data) => {
   try {
-    const response = await axios.put(
-      "/persoana/update/poza/" + userid, data, {
-      headers: { 'Content-Type': 'multipart/form-data', },
-      // params:{file:file ? file : null}
-    });
+    const response = await axios.post("/retrageri/add",data);
     return response;
   } catch (error) {
     console.log(error);

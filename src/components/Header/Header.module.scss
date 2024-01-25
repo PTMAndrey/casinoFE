@@ -155,10 +155,19 @@
     z-index: 1;
 }
 
-.hello {
-    font-size: $font-body-normal;
-    font-weight: $font-bold;
-    color: $color-black;
+.hello{
+    font-size: $font-body-normal !important;
+    font-weight: $font-bold !important;
+    border-bottom: 1px solid black !important;
+    cursor:default !important;
+    
+    &:hover{
+        background-color: none !important;
+    }
+    &:active{
+        background-color: white !important;
+        color: black !important;
+    }
 }
 
 .logout {
